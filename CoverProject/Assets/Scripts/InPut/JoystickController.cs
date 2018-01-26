@@ -6,10 +6,15 @@ using UnityEngine.EventSystems;
 
 public class JoystickController : MonoBehaviour,IDragHandler,IPointerDownHandler,IPointerUpHandler
 {
+    public static JoystickController _instance;
     public Vector2 GetiputDirection { set; get; }
     private Image bgImg;
     private Image joystickImg;
 
+    private void Awake()
+    {
+        _instance = this;
+    }
     private void Start()
     {
         bgImg = GetComponent<Image>();
@@ -29,20 +34,18 @@ public class JoystickController : MonoBehaviour,IDragHandler,IPointerDownHandler
             joystickImg.rectTransform.anchoredPosition = GetiputDirection;
 
         }
-        Debug.Log(GetiputDirection);
+        Debug.Log(GetiputDirection.normalized);
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
         OnDrag(eventData);
-        Debug.Log("按下");
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
         GetiputDirection = Vector2.zero;
         joystickImg.rectTransform.anchoredPosition = Vector2.zero;
-        Debug.Log("松手");
     }
 
 }

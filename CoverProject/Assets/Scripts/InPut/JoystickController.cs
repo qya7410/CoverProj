@@ -34,7 +34,7 @@ public class JoystickController : MonoBehaviour,IDragHandler,IPointerDownHandler
             joystickImg.rectTransform.anchoredPosition = GetiputDirection;
 
         }
-        Debug.Log(GetiputDirection.normalized);
+        //Debug.Log(GetiputDirection.normalized);
     }
 
     public void OnPointerDown(PointerEventData eventData)

@@ -2,22 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyVisualSystem : MonoBehaviour {
+public class EnemyVisualSystem : MonoBehaviour
+{
     //public float findPlayer
     public float viewRadius;//视觉圆的半径
 
-     
-    [Range(0,360)]
+
+    [Range(0, 360)]
     public float viewAngle;//视觉角度
     public LayerMask obstcleMask;
     public LayerMask playerMask;
 
     public List<Transform> visibleTarget = new List<Transform>();
     public float meshResolution;//决定了网格需要发射几多射线
-
+    public int edgeFindIteration;
+    public float edgeDstThreshold;
 
     public MeshFilter viewMeshFilter = new MeshFilter();
     private Mesh viewMesh;
+
     public struct ViewCastinfo //检测需要的信息，把它作为一个结构体
     {
         public bool hit;
@@ -25,7 +28,7 @@ public class EnemyVisualSystem : MonoBehaviour {
         public float dst;
         public float angle;
 
-        public ViewCastinfo(bool _hit,Vector3 _point,float _dst,float _angle)
+        public ViewCastinfo(bool _hit, Vector3 _point, float _dst, float _angle)
         {
             hit = _hit;
             point = _point;
@@ -40,7 +43,7 @@ public class EnemyVisualSystem : MonoBehaviour {
         viewMesh = new Mesh();
         viewMesh.name = "ViewMesh";
         viewMeshFilter.mesh = viewMesh;
-        StartCoroutine("FindTargetWithDelay",0.2f);
+        StartCoroutine("FindTargetWithDelay", 0.2f);
     }
 
     IEnumerator FindTargetWithDelay(float delay)
@@ -63,22 +66,41 @@ public class EnemyVisualSystem : MonoBehaviour {
         int stepCount = Mathf.RoundToInt(meshResolution * viewAngle);//总共的步长
         float stepAngleSize = viewAngle / stepCount;//单个步长的角度
         List<Vector3> viewPoints = new List<Vector3>();
+        ViewCastinfo oldViewCast = new ViewCastinfo();
         for (int i = 0; i <= stepCount; i++)
         {
             float angle = transform.eulerAngles.y - viewAngle / 2 + stepAngleSize * i;
             ViewCastinfo newViewCast = ViewCast(angle);
+            if (i>0)
+            {
+                bool isEdgeDstThreshold = Mathf.Abs(oldViewCast.dst - newViewCast.dst) > edgeDstThreshold;
+                if (oldViewCast.hit != newViewCast.hit||(oldViewCast.hit&&newViewCast.hit&&isEdgeDstThreshold))
+                {
+                    EdgeInfo edge = FindEdge(oldViewCast, newViewCast);
+                    if (edge.pointA != Vector3.zero)
+                    {
+                        viewPoints.Add(edge.pointA);
+                    }
+                    if (edge.pointB != Vector3.zero)
+                    {
+                        viewPoints.Add(edge.pointB);
+                    }
+                }
+            }
+           
             viewPoints.Add(newViewCast.point);
+            oldViewCast = newViewCast;
         }
 
         int vertexCont = viewPoints.Count + 1;
         Vector3[] vertices = new Vector3[vertexCont];
         int[] triangle = new int[(vertexCont - 2) * 3];
         vertices[0] = Vector3.zero;
-        for (int i = 0; i < vertexCont-1; i++)
+        for (int i = 0; i < vertexCont - 1; i++)
         {
-            vertices[i + 1] =transform.InverseTransformPoint(viewPoints[i]);
+            vertices[i + 1] = transform.InverseTransformPoint(viewPoints[i]);
             float globalAngle = transform.eulerAngles.y + stepAngleSize * i;
-            if (i<vertexCont - 2)
+            if (i < vertexCont - 2)
             {
                 triangle[i * 3] = 0;
                 triangle[i * 3 + 1] = i + 1;
@@ -94,16 +116,16 @@ public class EnemyVisualSystem : MonoBehaviour {
 
     ViewCastinfo ViewCast(float globleAngle)
     {
-        Vector3 dir = DirectionFormAngle(globleAngle,true);
+        Vector3 dir = DirectionFormAngle(globleAngle, true);
 
         RaycastHit hit;
-        if (Physics.Raycast(transform.position,dir,out hit,viewRadius,obstcleMask))
+        if (Physics.Raycast(transform.position, dir, out hit, viewRadius, obstcleMask))
         {
             return new ViewCastinfo(true, hit.point, hit.distance, globleAngle);
         }
         else
         {
-            return new ViewCastinfo(false, transform.position+dir*viewRadius, viewRadius, globleAngle);
+            return new ViewCastinfo(false, transform.position + dir * viewRadius, viewRadius, globleAngle);
         }
     }
 
@@ -112,7 +134,7 @@ public class EnemyVisualSystem : MonoBehaviour {
     {
         visibleTarget.Clear();//保证列表的实时更新
         //教程上是一个数组，去实现玩家对多个敌人的查找，我这里玩家只有一个，因此直接取第一个索引即可
-        Collider[] player = Physics.OverlapSphere(transform.position,viewRadius,playerMask);
+        Collider[] player = Physics.OverlapSphere(transform.position, viewRadius, playerMask);
 
 
         for (int i = 0; i < player.Length; i++)
@@ -126,7 +148,7 @@ public class EnemyVisualSystem : MonoBehaviour {
                 //记录敌人到玩家的距离
                 float distanceWithPlayer = Vector3.Distance(transform.position, player[0].transform.position);
                 //射线开始发射。
-                if (!Physics.Raycast(transform.position, enemyToPlayerDir, distanceWithPlayer,obstcleMask))
+                if (!Physics.Raycast(transform.position, enemyToPlayerDir, distanceWithPlayer, obstcleMask))
                 {
                     visibleTarget.Add(playerTrans);
                 }
@@ -137,7 +159,7 @@ public class EnemyVisualSystem : MonoBehaviour {
 
     }
     //这里定义的是通过角度映射回一个在某平面上的位置信息，此信息通过三角函数可画一个圆
-    public Vector3 DirectionFormAngle(float angleInDegrees,bool isGlobleAngle)
+    public Vector3 DirectionFormAngle(float angleInDegrees, bool isGlobleAngle)
     {
         if (!isGlobleAngle)
         {
@@ -146,5 +168,44 @@ public class EnemyVisualSystem : MonoBehaviour {
         }
         //这里是弧度，不是角度！！！角度是同一个圆心两直线的角度。弧度是外围走过的路径。
         return new Vector3(Mathf.Sin(angleInDegrees * Mathf.Deg2Rad), 0, Mathf.Cos(angleInDegrees * Mathf.Deg2Rad));
+    }
+
+    EdgeInfo FindEdge(ViewCastinfo minViewCast,ViewCastinfo maxViewCast)
+    {
+        float minAngle = minViewCast.angle;
+        float maxAngle = maxViewCast.angle;
+        Vector3 minPoint = Vector3.zero;
+        Vector3 maxPoint = Vector3.zero;
+
+        for (int i = 0; i < edgeFindIteration; i++)
+        {
+            float angle = (minAngle + maxAngle) / 2;
+            ViewCastinfo newViewCast = ViewCast(angle);
+            bool isEdgeDstThreshold = Mathf.Abs(minViewCast.dst - newViewCast.dst) > edgeDstThreshold;
+            if (newViewCast.hit == minViewCast.hit&&!isEdgeDstThreshold)
+            {
+                minAngle = newViewCast.angle;
+                minPoint = newViewCast.point;
+            }
+            else
+            {
+                maxAngle = newViewCast.angle;
+                maxPoint = newViewCast.point;
+            }
+        }
+
+        return new EdgeInfo(minPoint, maxPoint);
+    }
+
+    public struct EdgeInfo
+    {
+        public Vector3 pointA;
+        public Vector3 pointB;
+
+        public EdgeInfo(Vector3 _pointA,Vector3 _pointB)
+        {
+            pointA = _pointA;
+            pointB = _pointB;
+        }
     }
 }

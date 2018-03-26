@@ -8,81 +8,128 @@ public class EnemyBrain : MonoBehaviour
 	public Transform[] patrolPath;
 	public bool isPatroling;
 	public bool isShooting;
+	public bool isCover;
+	public bool isStooed =false;
+	public float patrolStayTimer =5;
 //	public float targetStayTimer
+	public float beteewnShotTimer =0.5f;
 
 	private NavMeshAgent agent;
 	private Animator anim;
-	private float patrolStayTimer =0f;
 
-	private int PathIndex = 0;
+	private float agentSpeed;
+
+	private int pathIndex = 0;
+
+	private float t =10f;
 	// Use this for initialization
 	void Start () {
+		
 		agent = GetComponent<NavMeshAgent> ();
 		anim = GetComponent<Animator> ();
+		agentSpeed =agent.speed*0.5f;
 	}
 	
 	// Update is called once per frame
 	void Update () 
 	{
-		if (isPatroling) {
-			Patroling ();
-		}
-		Shooting ();
-	}
-
-	void Patroling()
-	{
 		float mov = MovingSpeed ();
 		anim.SetFloat ("MovingSpeed",mov);
+		if (isPatroling) 
+		{
+			Patroling ();
+			
+		}
+		if(isCover)
+		{
+			Cover();
+		}
+		// Shooting ();
+	}
+	void LateUpdate()
+	{
+		
+	}
+	//这个方法更新敌人巡逻
+	void Patroling()
+	{
+		isCover =false;
 		if (patrolPath.Length>0) 
 		{
-			if (agent.remainingDistance<=0.1f) 
+			
+			if (Vector3.Distance(transform.position,agent.destination)<agent.stoppingDistance)
+            {
+				anim.SetBool(HashIDs.enmeyMoveHash,false);
+                patrolStayTimer -= Time.deltaTime;
+                if (patrolStayTimer<=0&&pathIndex<patrolPath.Length)
+                {
+					anim.SetBool(HashIDs.enmeyMoveHash,true);
+                    pathIndex++;
+                    patrolStayTimer= 3f;                   
+                    if (pathIndex == patrolPath.Length)
+                    {
+                        pathIndex = 0;
+                    }
+                }
+            }
+			else
 			{
-				agent.isStopped = true;
-				transform.position = agent.destination;
-				patrolStayTimer += Time.deltaTime;
-				if (patrolStayTimer>3f) 
-				{
-					PathIndex++;
-					patrolStayTimer = 0f;
-					agent.isStopped = false;
-					if (PathIndex==patrolPath.Length) 
-					{
-						PathIndex = 0;
-					}
-				}
-
+				anim.SetBool(HashIDs.enmeyMoveHash,true);				
 			}
-		}
-		agent.SetDestination (patrolPath [PathIndex].position);
-
-		Debug.DrawRay (patrolPath [PathIndex].position, Vector3.up * 10);
+		agent.SetDestination (patrolPath [pathIndex].position);	
+        }
 	}
 
-	void Shooting()
+	void Cover()
 	{
-		if (isShooting) {
-			agent.isStopped = true;
-			anim.SetTrigger ("Shooting");
-		} else {
-			agent.isStopped = false;
+		isPatroling =false;
+		CoverObstacle destWall = GetNearByObstacle._instance.destObstcle;
+		Vector3 desPos =destWall.GetCoverPosition();
+		agent.SetDestination(desPos);
+		if(Vector3.Distance(transform.position,agent.destination)<agent.stoppingDistance)
+		{
+			transform.position =agent.destination;
+			anim.SetBool("Cover",true);
+		}else
+		{
+			anim.SetBool("Cover",false);
 		}
 	}
 
+
+	//这个方法更新敌人的走动速度，1是跑，0.5是走，0是停
 	float MovingSpeed()
 	{
-		float speed;
+		float speed =0;
 		if (isPatroling) 
-        {
-			speed = agent.speed * 0.5f;
-            if (agent.remainingDistance<0.5f)
+        {	
+			 speed=0.5f;
+            if (agent.remainingDistance<agent.stoppingDistance+0.5f)
             {
-                speed = Mathf.Lerp(speed, 0, Time.deltaTime * 5f);
+				t+=Mathf.Clamp(Time.deltaTime,0f,1f);
+				speed = Mathf.Lerp(agentSpeed,0, t*3f);
+				// if(speed<0.1)
+				// {
+				// 	speed=0f;
+				// }
             }
-        } else 
+			else
+			{
+				t=0f;
+				speed=agentSpeed;
+			}
+        }
+		else if(isCover)
 		{
-			speed = 0f;
+			speed =1f;
+			agent.speed=2f;
+			if (agent.remainingDistance<agent.stoppingDistance+0.5f)
+            {
+				t+=Mathf.Clamp(Time.deltaTime,0f,1f);
+				speed = Mathf.Lerp(speed,0, t*3f);
+            }
 		}
 		return speed;
+		// Debug.Log(speed);
 	}
 }

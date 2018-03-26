@@ -20,11 +20,11 @@ RenderSettings:
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
+  m_AmbientSkyColor: {r: 0.1, g: 0.1, b: 0.1, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
-  m_AmbientMode: 0
+  m_AmbientMode: 4
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
   m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
   m_HaloStrength: 0.5
@@ -532,6 +532,36 @@ Prefab:
       propertyPath: m_LocalEulerAnglesHint.y
       value: 76.748
       objectReference: {fileID: 0}
+    - target: {fileID: 114062374040711198, guid: ab397289774c344ec9194a8d637654a1,
+        type: 2}
+      propertyPath: findPlayer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114062374040711198, guid: ab397289774c344ec9194a8d637654a1,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 95078327656260606, guid: ab397289774c344ec9194a8d637654a1,
+        type: 2}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: f0fe9ac781c14486aaf41ab43ba806fd, type: 2}
+    - target: {fileID: 195502516613834546, guid: ab397289774c344ec9194a8d637654a1,
+        type: 2}
+      propertyPath: m_Speed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114834239826234470, guid: ab397289774c344ec9194a8d637654a1,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 135071289498483858, guid: ab397289774c344ec9194a8d637654a1,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ab397289774c344ec9194a8d637654a1, type: 2}
   m_IsPrefabParent: 0
@@ -569,6 +599,23 @@ Transform:
   m_PrefabParentObject: {fileID: 4150434082186074, guid: ab397289774c344ec9194a8d637654a1,
     type: 2}
   m_PrefabInternal: {fileID: 253008930}
+--- !u!114 &253008939
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 253008931}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d9a2ea2d3cbd49649dece7ed2876001, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  patrolPath:
+  - {fileID: 1299440850}
+  - {fileID: 1937876695}
+  - {fileID: 1372935068}
+  - {fileID: 1775613722}
+  isShooting: 0
 --- !u!1 &256754223
 GameObject:
   m_ObjectHideFlags: 0

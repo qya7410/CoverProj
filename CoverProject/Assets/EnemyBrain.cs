@@ -5,6 +5,7 @@ using UnityEngine.AI;
 
 public class EnemyBrain : MonoBehaviour 
 {
+    public Transform player;
 	public Transform[] patrolPath;
 	public bool isPatroling;
 	public bool isShooting;
@@ -12,7 +13,10 @@ public class EnemyBrain : MonoBehaviour
 	public bool isStooed =false;
 	public float patrolStayTimer =5;
 //	public float targetStayTimer
-	public float beteewnShotTimer =0.5f;
+    public float beteewnShot =2f;
+    private float beteewnShotTimer = 0f;
+
+    public Transform players;
 
 	private NavMeshAgent agent;
 	private Animator anim;
@@ -21,20 +25,36 @@ public class EnemyBrain : MonoBehaviour
 
 	private int pathIndex = 0;
 
-	private float t =10f;
-	// Use this for initialization
+	private float moveSpeed;
+    private float speed =0f;
+    private float moveToStopTimer=0f;
+    //public float moveToStop;
+    // Use this for initialization
+
+
+
+
+
+
+
+    private Vector3 desPos;
+
+
 	void Start () {
-		
+        
 		agent = GetComponent<NavMeshAgent> ();
+        //agent.updateUpAxis = false;
 		anim = GetComponent<Animator> ();
 		agentSpeed =agent.speed*0.5f;
+        anim.SetFloat(HashIDs.enmeyMoveSpeedHash, agentSpeed);
+        desPos = patrolPath[pathIndex].position;
 	}
 	
 	// Update is called once per frame
 	void Update () 
 	{
-		float mov = MovingSpeed ();
-		anim.SetFloat ("MovingSpeed",mov);
+        
+
 		if (isPatroling) 
 		{
 			Patroling ();
@@ -43,56 +63,80 @@ public class EnemyBrain : MonoBehaviour
 		if(isCover)
 		{
 			Cover();
+            Shooting();
 		}
-		// Shooting ();
+        //moveSpeed = MovingSpeed();
 	}
-	void LateUpdate()
-	{
-		
-	}
+
 	//这个方法更新敌人巡逻
 	void Patroling()
 	{
-		isCover =false;
-		if (patrolPath.Length>0) 
-		{
-			
-			if (Vector3.Distance(transform.position,agent.destination)<agent.stoppingDistance)
+        if (agent.remainingDistance<agent.stoppingDistance)
+        {
+            //开启导航的条件应该是
+            patrolStayTimer -= Time.deltaTime;
+            if (patrolStayTimer<0f)
             {
-				anim.SetBool(HashIDs.enmeyMoveHash,false);
-                patrolStayTimer -= Time.deltaTime;
-                if (patrolStayTimer<=0&&pathIndex<patrolPath.Length)
+                agent.isStopped = false;
+                if (pathIndex==patrolPath.Length)
                 {
-					anim.SetBool(HashIDs.enmeyMoveHash,true);
+                    pathIndex = 0;
+                    patrolStayTimer = 5f;
+                }
+                else
+                {
                     pathIndex++;
-                    patrolStayTimer= 3f;                   
-                    if (pathIndex == patrolPath.Length)
-                    {
-                        pathIndex = 0;
-                    }
+                    patrolStayTimer = 5f;
                 }
             }
-			else
-			{
-				anim.SetBool(HashIDs.enmeyMoveHash,true);				
-			}
-		agent.SetDestination (patrolPath [pathIndex].position);	
+            else
+            {
+                agent.isStopped = true;
+            }
         }
+        agent.SetDestination(patrolPath[pathIndex].position);
+        Debug.Log(agent.isStopped);
+        //isCover =false;
+  //      anim.SetBool(HashIDs.enmeyCoverHash, false);
+		//if (patrolPath.Length>0) 
+		//{
+			
+		//	if (Vector3.Distance(transform.position,agent.destination)<agent.stoppingDistance)
+  //          {
+		//		anim.SetBool(HashIDs.enmeyMoveHash,false);
+  //              agent.speed = MovingSpeed();
+  //              //agent.enabled = false;
+  //              patrolStayTimer -= Time.deltaTime;
+  //              if (patrolStayTimer<=0&&pathIndex<patrolPath.Length)
+  //              {
+  //                  //agent.enabled = true;
+		//			anim.SetBool(HashIDs.enmeyMoveHash,true);
+  //                  pathIndex++;
+  //                  patrolStayTimer= 5f;                   
+  //                  if (pathIndex == patrolPath.Length)
+  //                  {
+  //                      pathIndex = 0;
+  //                  }
+  //              }
+  //          }
+
+		//agent.SetDestination (patrolPath [pathIndex].position);	
+        //}
 	}
 
 	void Cover()
 	{
-		isPatroling =false;
+        isPatroling = false;	
 		CoverObstacle destWall = GetNearByObstacle._instance.destObstcle;
-		Vector3 desPos =destWall.GetCoverPosition();
+		//Vector3 desPos =destWall.GetCoverPosition();
 		agent.SetDestination(desPos);
 		if(Vector3.Distance(transform.position,agent.destination)<agent.stoppingDistance)
 		{
 			transform.position =agent.destination;
-			anim.SetBool("Cover",true);
+            anim.SetBool(HashIDs.enmeyCoverHash,true);
 		}else
 		{
-			anim.SetBool("Cover",false);
+            anim.SetBool(HashIDs.enmeyCoverHash,false);
 		}
 	}
 
@@ -100,36 +144,59 @@ public class EnemyBrain : MonoBehaviour
 	//这个方法更新敌人的走动速度，1是跑，0.5是走，0是停
 	float MovingSpeed()
 	{
-		float speed =0;
 		if (isPatroling) 
-        {	
-			 speed=0.5f;
+        {
+            agent.speed = 0.5f;
             if (agent.remainingDistance<agent.stoppingDistance+0.5f)
             {
-				t+=Mathf.Clamp(Time.deltaTime,0f,1f);
-				speed = Mathf.Lerp(agentSpeed,0, t*3f);
-				// if(speed<0.1)
-				// {
-				// 	speed=0f;
-				// }
+                moveToStopTimer += Time.deltaTime;
+                agent.speed= Mathf.Lerp(0.5f, 0f, moveToStopTimer);
+                if(agent.speed<0.1)
+				 {
+                    moveToStopTimer = 0f;
+                    agent.speed= 0f;
+				 }
+                else
+                {
+                    return agent.speed; 
+                }
+                Debug.Log(moveToStopTimer);
             }
-			else
-			{
-				t=0f;
-				speed=agentSpeed;
-			}
+            return agent.speed;
         }
 		else if(isCover)
 		{
-			speed =1f;
-			agent.speed=2f;
+            agent.speed=2f;
 			if (agent.remainingDistance<agent.stoppingDistance+0.5f)
             {
-				t+=Mathf.Clamp(Time.deltaTime,0f,1f);
-				speed = Mathf.Lerp(speed,0, t*3f);
+                //float timer = 0;
+                moveToStopTimer += Time.deltaTime;
+                agent.speed = Mathf.Lerp(2, 0, moveToStopTimer);
+                if(agent.speed<0.1)
+                 {
+                    moveToStopTimer = 0f;
+                    agent.speed= 0f;
+                 }
+                else
+                {
+                    return agent.speed; 
+                }
             }
 		}
-		return speed;
-		// Debug.Log(speed);
+        return agent.speed;
+       
 	}
+
+    private void Shooting()
+    {
+            
+        beteewnShotTimer-= Time.deltaTime;
+        if (beteewnShotTimer<=0f&&agent.isStopped==false)
+        {
+            agent.isStopped = true;
+            anim.SetTrigger(HashIDs.enmeyShotHash);
+            beteewnShotTimer = beteewnShot;
+        }
+            agent.isStopped = false;
+    }
 }

@@ -1,9 +1,14 @@
 ﻿<Properties StartupConfiguration="{0EBFB9E0-50B5-2C40-0E4E-7375AB60C263}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/EnemyBrain.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/EnumeratorTest.cs">
     <Files>
-      <File FileName="Assets/EnemyBrain.cs" Line="147" Column="18" />
       <File FileName="Assets/Scripts/Tags.cs" Line="4" Column="3" />
-      <File FileName="Assets/Scripts/HashIDs.cs" Line="10" Column="70" />
+      <File FileName="Assets/Scripts/HashIDs.cs" Line="11" Column="41" />
+      <File FileName="Assets/EnemyBrain.cs" Line="179" Column="25" />
+      <File FileName="Assets/Scripts/GetNearByObstacle.cs" Line="17" Column="28" />
+      <File FileName="Assets/Scripts/Enemy/EnemyAI.cs" Line="92" Column="11" />
+      <File FileName="Assets/Scripts/Enemy/EnemyVisualSystem.cs" Line="144" Column="33" />
+      <File FileName="Assets/Scripts/CoverObstacle.cs" Line="20" Column="36" />
+      <File FileName="Assets/EnumeratorTest.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />

@@ -5,6 +5,7 @@ using UnityEngine;
 public class CoverObstacle : MonoBehaviour 
 {
     public Transform[] preCoverPostion;
+    public Vector3 coverWithWall;
     private Transform player;
 
     // Use this for initialization
@@ -12,7 +13,12 @@ public class CoverObstacle : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag(Tags.player).transform;
     }
-    public Vector3 GetCoverPosition()
+
+    void Start () 
+    {
+        StartCoroutine(CheckCover());
+    }
+    private Vector3 GetCoverPosition()
     {
         Vector3 coverPositon =new Vector3();
         if (player!=null)
@@ -27,12 +33,18 @@ public class CoverObstacle : MonoBehaviour
             {
                 coverPositon = preCoverPostion[1].position;
             }
-            //else
-            //{
-            //    coverPositon = player.position;
-            //}
         }
 
         return coverPositon;
+    }
+
+    IEnumerator CheckCover()
+    {
+        while(true)
+        {
+            coverWithWall=GetCoverPosition();
+            //Debug.Log("AAAAAA"+GetCoverPosition());
+            yield return new WaitForSeconds(2f);
+        }
     }
 }

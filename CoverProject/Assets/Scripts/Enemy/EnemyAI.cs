@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-public enum EnemyState
+public enum EnemyStates
 {
     Pratrol,
     TakeCover
@@ -14,7 +14,7 @@ public class EnemyAI : MonoBehaviour
     private CoverObstacle nearByObstacle;
     public float distanceWithPlayer = 100f;
     public Transform[] pratrolWayPoints;
-    public EnemyState currentState = EnemyState.Pratrol;
+    public EnemyStates currentState = EnemyStates.Pratrol;
     public float stayTimer = 10f;
 
 
@@ -51,10 +51,10 @@ public class EnemyAI : MonoBehaviour
         UpdateAnimation();
         switch (currentState)
         {
-            case EnemyState.Pratrol:
+            case EnemyStates.Pratrol:
                 UpdatePratrol();
                 break;
-            case EnemyState.TakeCover:
+            case EnemyStates.TakeCover:
                 UpdateTakeCover();
                 break;
         }
@@ -68,7 +68,7 @@ public class EnemyAI : MonoBehaviour
         if (other.tag == Tags.player)
         {
             findPlayer = true;
-            currentState = EnemyState.TakeCover;
+            currentState = EnemyStates.TakeCover;
         }
     }
     private void OnTriggerExit(Collider other)
@@ -84,34 +84,34 @@ public class EnemyAI : MonoBehaviour
     private void UpdateTakeCover()
     {
      
-        nearByObstacle = GetNearByObstacle._instance.destObstcle;
-        vigilantTimer -= Time.deltaTime;//警惕计时器
+        //nearByObstacle = GetNearByObstacle._instance.destObstcle;
+        //vigilantTimer -= Time.deltaTime;//警惕计时器
 
-        agent.isStopped = false;
-        agent.speed = 2;
-        transform.LookAt(player);
-        //Vector3 coverPos = nearByObstacle.GetCoverPosition();
+        //agent.isStopped = false;
+        //agent.speed = 2;
+        //transform.LookAt(player);
+        ////Vector3 coverPos = nearByObstacle.GetCoverPosition();
 
-        //到达目标点后
-        if (Vector3.Distance(transform.position,agent.destination)<0.1f)
-        {
-            betweenShotTime -= Time.deltaTime;
-
-        }
-        //else
+        ////到达目标点后
+        //if (Vector3.Distance(transform.position,agent.destination)<0.1f)
         //{
-        //    betweenShotTime = 0.5f;
-        //}
-        //警惕时间过后，重制巡逻状态。
-        if (vigilantTimer<=0f&&!findPlayer)
-        {
-            
-            //Debug.Log(vigilantTimer);
-            currentState = EnemyState.Pratrol;
-            vigilantTimer = 10f;
-        }
+        //    betweenShotTime -= Time.deltaTime;
 
-        agent.SetDestination(nearByObstacle.GetCoverPosition());
+        //}
+        ////else
+        ////{
+        ////    betweenShotTime = 0.5f;
+        ////}
+        ////警惕时间过后，重制巡逻状态。
+        //if (vigilantTimer<=0f&&!findPlayer)
+        //{
+            
+        //    //Debug.Log(vigilantTimer);
+        //    currentState = EnemyStates.Pratrol;
+        //    vigilantTimer = 10f;
+        //}
+
+        //agent.SetDestination(nearByObstacle.GetCoverPosition());
     }
 
     private void UpdatePratrol()
@@ -155,7 +155,7 @@ public class EnemyAI : MonoBehaviour
             anim.SetBool(HashIDs.enmeyRunHash, false);
             anim.SetBool(HashIDs.enmeyMoveHash, false);
             //在Cover下
-            if (currentState==EnemyState.TakeCover)
+            if (currentState==EnemyStates.TakeCover)
             {
                 //每隔0.5s，射击一次
                 if (betweenShotTime <= 0)

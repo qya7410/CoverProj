@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class EnemyVisualSystem : MonoBehaviour
 {
+    public bool isFindpalyer;
+    public float enmeyAlertTime = 5f;
+    private float alert = 0;
     //public float findPlayer
     public float viewRadius;//视觉圆的半径
 
@@ -20,6 +23,7 @@ public class EnemyVisualSystem : MonoBehaviour
 
     public MeshFilter viewMeshFilter = new MeshFilter();
     private Mesh viewMesh;
+    private Transform palyer;
 
     public struct ViewCastinfo //检测需要的信息，把它作为一个结构体
     {
@@ -44,6 +48,8 @@ public class EnemyVisualSystem : MonoBehaviour
         viewMesh.name = "ViewMesh";
         viewMeshFilter.mesh = viewMesh;
         StartCoroutine("FindTargetWithDelay", 0.2f);
+
+        palyer = GameObject.FindWithTag(Tags.player).transform;
     }
 
     IEnumerator FindTargetWithDelay(float delay)
@@ -59,6 +65,19 @@ public class EnemyVisualSystem : MonoBehaviour
     private void Update()
     {
         DrawEnemyVisualisation();
+        if (isFindpalyer)
+        {
+            alert += Time.deltaTime; 
+            if (alert >= enmeyAlertTime)
+            {
+                isFindpalyer = false;
+                alert = 0f;
+            }
+            else
+            {
+                isFindpalyer = true;
+            }
+        }
     }
 
     void DrawEnemyVisualisation()//画扇形
@@ -132,28 +151,50 @@ public class EnemyVisualSystem : MonoBehaviour
 
     void FindVisiblePlayer()
     {
-        visibleTarget.Clear();//保证列表的实时更新
-        //教程上是一个数组，去实现玩家对多个敌人的查找，我这里玩家只有一个，因此直接取第一个索引即可
-        Collider[] player = Physics.OverlapSphere(transform.position, viewRadius, playerMask);
 
+        Vector3 dirWithPalyer = palyer.position - transform.position;
+        //dirWithPalyer = new Vector3(dirWithPalyer.x, 0, dirWithPalyer.z);
 
-        for (int i = 0; i < player.Length; i++)
+        if(Vector3.Angle(dirWithPalyer,transform.forward)<viewAngle&&Vector3.Distance(transform.position,palyer.position)<viewRadius)
         {
-            Transform playerTrans = player[i].transform;
-            //敌人与玩家的方向
-            Vector3 enemyToPlayerDir = (playerTrans.transform.position - transform.position).normalized;
-            //如果敌人到玩家的夹角，小于iewAngle/2，此时应该发射射线。。
-            if (Vector3.Angle(transform.forward, enemyToPlayerDir) < viewAngle / 2)
+            //isFindpalyer = true;
+            RaycastHit hit;
+            Ray ray = new Ray(transform.position + Vector3.up * 1.6f, dirWithPalyer.normalized);
+            if (Physics.Raycast(ray,out hit,viewRadius))
             {
-                //记录敌人到玩家的距离
-                float distanceWithPlayer = Vector3.Distance(transform.position, player[0].transform.position);
-                //射线开始发射。
-                if (!Physics.Raycast(transform.position, enemyToPlayerDir, distanceWithPlayer, obstcleMask))
+                Debug.Log("asdasfdsssgfds:::::"+alert);
+
+                if(hit.collider.tag==Tags.player)
                 {
-                    visibleTarget.Add(playerTrans);
+                    //Debug.DrawLine(ray.origin, hit.point, Color.red);
+                    isFindpalyer = true;
                 }
+
             }
+            Debug.DrawLine(transform.position, palyer.position, Color.white);
         }
+        //visibleTarget.Clear();//保证列表的实时更新
+        ////教程上是一个数组，去实现玩家对多个敌人的查找，我这里玩家只有一个，因此直接取第一个索引即可
+        //Collider[] player = Physics.OverlapSphere(transform.position, viewRadius, playerMask);
+
+
+        //for (int i = 0; i < player.Length; i++)
+        //{
+        //    Transform playerTrans = player[i].transform;
+        //    //敌人与玩家的方向
+        //    Vector3 enemyToPlayerDir = (playerTrans.transform.position - transform.position).normalized;
+        //    //如果敌人到玩家的夹角，小于iewAngle/2，此时应该发射射线。。
+        //    if (Vector3.Angle(transform.forward, enemyToPlayerDir) < viewAngle / 2)
+        //    {
+        //        //记录敌人到玩家的距离
+        //        float distanceWithPlayer = Vector3.Distance(transform.position, player[0].transform.position);
+        //        //射线开始发射。
+        //        if (!Physics.Raycast(transform.position, enemyToPlayerDir, distanceWithPlayer, obstcleMask))
+        //        {
+        //            visibleTarget.Add(playerTrans);
+        //        }
+        //    }
+        //}
 
 
 

@@ -4,20 +4,23 @@ using UnityEngine;
 
 public class GetNearByObstacle : MonoBehaviour {
 
-    public static GetNearByObstacle _instance;
+    //public static GetNearByObstacle _instance;
     public List<CoverObstacle> obstacles = new List<CoverObstacle>();
     public CoverObstacle destObstcle;
-    private EnemyAI enemyAI;
-    public float changeObstacleTimer=15f;
+    private EnemyBrain enemyAI;
+
+
+    public float changeObstacle=15f;
     private int index;
     private Transform player;
 
+    private float changeObstacleTimer = 0f;
     private void Awake()
     {
-        _instance = this;
+        //_instance = this;
         index = 0;
         player = GameObject.FindGameObjectWithTag(Tags.player).transform;
-        enemyAI = GetComponent<EnemyAI>();
+        enemyAI = GetComponent<EnemyBrain>();
         destObstcle = obstacles[index];
     }
     // Use this for initialization
@@ -30,13 +33,13 @@ public class GetNearByObstacle : MonoBehaviour {
     {
         //destObstcle = obstacles[index];
 
-        if (enemyAI.currentState==EnemyState.TakeCover)
+        if (enemyAI.currentState==EnemyState.Cover)
         {
             changeObstacleTimer -= Time.deltaTime;
-            if (Vector3.Distance(transform.position,player.position)<=3&&changeObstacleTimer < 0f)
+            if (changeObstacleTimer < 0f)
             {
-                    index++;
-                    changeObstacleTimer = 5f;
+                index++;
+                changeObstacleTimer = changeObstacle;
 
 
             }

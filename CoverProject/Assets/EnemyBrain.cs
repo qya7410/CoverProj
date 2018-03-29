@@ -10,6 +10,9 @@ public enum EnemyState
 }
 public class EnemyBrain : MonoBehaviour 
 {
+    public GameObject bullet;
+    public Transform firePosition;
+
     public EnemyState currentState;
 
     //public Transform player;
@@ -18,7 +21,10 @@ public class EnemyBrain : MonoBehaviour
 	public bool isShooting;
 	public bool isCover;
 	public bool isStooed =false;
-	public float patrolStayTimer =5;
+
+    public float patrolStay = 5f;
+    private float patrolStayTimer;
+
     public float beteewnShot =2f;
     public float smoothRotateDamping = 6f;
     private float beteewnShotTimer;
@@ -28,18 +34,22 @@ public class EnemyBrain : MonoBehaviour
 	private NavMeshAgent agent;
 	private Animator anim;
 
-	private float agentSpeed;
+	//private float agentSpeed;
 
-	private int pathIndex = 0;
+	private int pathIndex;
 
 	private float moveSpeed;
     public float speed;
     public float moveToStopTimer=0f;
     private Vector3 desPos;
     private GetNearByObstacle obs;
+    public float enmeyAlertTime;
+    private float alert = 0;
 
 	void Start () 
     {
+        alert = enmeyAlertTime;
+        patrolStayTimer = patrolStay;
         player = GameObject.FindWithTag(Tags.player).transform;
         enemyEyes = GetComponent<EnemyVisualSystem>();
         obs = GetComponent<GetNearByObstacle>();
@@ -53,6 +63,7 @@ public class EnemyBrain : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
 	{
+        //Debug.Log(patrolStayTimer);
         switch (currentState)
         {
             case EnemyState.Patroling:
@@ -60,11 +71,13 @@ public class EnemyBrain : MonoBehaviour
                 break;
             case EnemyState.Cover:
                 Cover();
+                AlertMoment();
                 break;
         }
         if(enemyEyes.isFindpalyer)
 		{
             currentState = EnemyState.Cover;
+
         }
         else
         {
@@ -72,44 +85,48 @@ public class EnemyBrain : MonoBehaviour
         }
         if(isShooting)
         {
-            Shooting();
+            ShootingAnimation();
         }
+        //Debug.Log("EnmeyState=" + currentState);
 	}
 
 	//这个方法更新敌人巡逻
 	void Patroling()
 	{
+        isShooting = false;
+        anim.SetBool(HashIDs.enmeyCoverHash, false);
         if (agent.remainingDistance<agent.stoppingDistance)
         {
-            //开启导航的条件应该是当计时器记时完成，其他情况导航均关闭
+            agent.isStopped = true;
+            //开启导航的条件在stopdistance之内
             patrolStayTimer -= Time.deltaTime;
             if (patrolStayTimer<0f)
             {
-                agent.isStopped = false;
-                if (pathIndex==patrolPath.Length)
+                //agent.isStopped = false;
+                if (pathIndex>=patrolPath.Length)
                 {
                     pathIndex = 0;
-                    patrolStayTimer = 5f;
+                    patrolStayTimer = patrolStay;
                 }
                 else
                 {
-                    pathIndex++;
-                    patrolStayTimer = 5f;
+                    ++pathIndex;
+                    patrolStayTimer = patrolStay;
                 }
             }
-            else//划重点
-            {
-                agent.isStopped = true;
-            }
         }
-        agent.SetDestination(patrolPath[pathIndex].position);
-
+        //划重点，其他情况开启导航
+        else
+        {
+            agent.isStopped = false;
+        }
         anim.SetFloat(HashIDs.enmeyMoveSpeedHash, MovingSpeed());
-	}
+        agent.SetDestination(patrolPath[pathIndex].position);
+    }
 
 	void Cover()
 	{
-
+        isShooting = true;
         LookForPlayer();
         //transform
         anim.SetFloat(HashIDs.enmeyMoveSpeedHash, CoverSpeed());
@@ -174,7 +191,7 @@ public class EnemyBrain : MonoBehaviour
         return moveSpeed;
     }
     //射击
-    private void Shooting()
+    private void ShootingAnimation()
     {
         LookForPlayer();
         //间隔时间发送射击状态
@@ -205,4 +222,33 @@ public class EnemyBrain : MonoBehaviour
         transform.rotation = Quaternion.Lerp(transform.rotation,targetRotation,smoothRotateDamping*Time.deltaTime);
     }
 
+    void AlertMoment()
+    {
+        if (Vector3.Distance(transform.position, player.position) > enemyEyes.viewRadius)
+        {
+            alert -= Time.deltaTime;
+            if (alert <=0)
+            {
+                agent.isStopped = true;
+                enemyEyes.isFindpalyer = false;
+                alert = enmeyAlertTime;
+                anim.SetTrigger(HashIDs.enmeyLookingHash);
+            }
+        }
+
+        AnimatorStateInfo Info = anim.GetCurrentAnimatorStateInfo(0);
+        //if (Info.IsName("Base Layer.Looking") && Info.normalizedTime < 1.0f)
+        //{
+        //    agent.isStopped = true;
+        //}
+        //else
+        //{
+        //    agent.enabled = false;
+        //}
+    }
+
+    public void GunShot()
+    {
+        Instantiate(bullet,firePosition.position,transform.rotation);
+    }
 }

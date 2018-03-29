@@ -5,8 +5,6 @@ using UnityEngine;
 public class EnemyVisualSystem : MonoBehaviour
 {
     public bool isFindpalyer;
-    public float enmeyAlertTime = 5f;
-    private float alert = 0;
     //public float findPlayer
     public float viewRadius;//视觉圆的半径
 
@@ -24,7 +22,7 @@ public class EnemyVisualSystem : MonoBehaviour
     public MeshFilter viewMeshFilter = new MeshFilter();
     private Mesh viewMesh;
     private Transform palyer;
-
+    private Animator anim;
     public struct ViewCastinfo //检测需要的信息，把它作为一个结构体
     {
         public bool hit;
@@ -44,10 +42,11 @@ public class EnemyVisualSystem : MonoBehaviour
 
     private void Start()
     {
+        anim = GetComponent<Animator>();
         viewMesh = new Mesh();
         viewMesh.name = "ViewMesh";
         viewMeshFilter.mesh = viewMesh;
-        StartCoroutine("FindTargetWithDelay", 0.2f);
+        StartCoroutine("FindTargetWithDelay", 0.5f);
 
         palyer = GameObject.FindWithTag(Tags.player).transform;
     }
@@ -65,19 +64,7 @@ public class EnemyVisualSystem : MonoBehaviour
     private void Update()
     {
         DrawEnemyVisualisation();
-        if (isFindpalyer)
-        {
-            alert += Time.deltaTime; 
-            if (alert >= enmeyAlertTime)
-            {
-                isFindpalyer = false;
-                alert = 0f;
-            }
-            else
-            {
-                isFindpalyer = true;
-            }
-        }
+        //AlertMoment();
     }
 
     void DrawEnemyVisualisation()//画扇形
@@ -159,46 +146,19 @@ public class EnemyVisualSystem : MonoBehaviour
         {
             //isFindpalyer = true;
             RaycastHit hit;
-            Ray ray = new Ray(transform.position + Vector3.up * 1.6f, dirWithPalyer.normalized);
+            Ray ray = new Ray(transform.position + Vector3.up * 1.5f, dirWithPalyer.normalized);
             if (Physics.Raycast(ray,out hit,viewRadius))
             {
-                Debug.Log("asdasfdsssgfds:::::"+alert);
-
                 if(hit.collider.tag==Tags.player)
                 {
-                    //Debug.DrawLine(ray.origin, hit.point, Color.red);
+                    Debug.DrawLine(ray.origin, hit.point, Color.red);
                     isFindpalyer = true;
                 }
-
             }
             Debug.DrawLine(transform.position, palyer.position, Color.white);
         }
-        //visibleTarget.Clear();//保证列表的实时更新
-        ////教程上是一个数组，去实现玩家对多个敌人的查找，我这里玩家只有一个，因此直接取第一个索引即可
-        //Collider[] player = Physics.OverlapSphere(transform.position, viewRadius, playerMask);
-
-
-        //for (int i = 0; i < player.Length; i++)
-        //{
-        //    Transform playerTrans = player[i].transform;
-        //    //敌人与玩家的方向
-        //    Vector3 enemyToPlayerDir = (playerTrans.transform.position - transform.position).normalized;
-        //    //如果敌人到玩家的夹角，小于iewAngle/2，此时应该发射射线。。
-        //    if (Vector3.Angle(transform.forward, enemyToPlayerDir) < viewAngle / 2)
-        //    {
-        //        //记录敌人到玩家的距离
-        //        float distanceWithPlayer = Vector3.Distance(transform.position, player[0].transform.position);
-        //        //射线开始发射。
-        //        if (!Physics.Raycast(transform.position, enemyToPlayerDir, distanceWithPlayer, obstcleMask))
-        //        {
-        //            visibleTarget.Add(playerTrans);
-        //        }
-        //    }
-        //}
-
-
-
     }
+
     //这里定义的是通过角度映射回一个在某平面上的位置信息，此信息通过三角函数可画一个圆
     public Vector3 DirectionFormAngle(float angleInDegrees, bool isGlobleAngle)
     {

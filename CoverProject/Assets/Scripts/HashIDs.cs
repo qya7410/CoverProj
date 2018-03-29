@@ -10,5 +10,9 @@ public class HashIDs : MonoBehaviour
     public static int enmeyShotHash = Animator.StringToHash("Shooting");
     public static int enmeyMoveSpeedHash = Animator.StringToHash("MovingSpeed");
     public static int enmeyCoverHash = Animator.StringToHash("Cover");
+    public static int enmeyLookingHash = Animator.StringToHash("Looking");
+
+
+    public static int playerDeadHash = Animator.StringToHash("Dead");
 
 }

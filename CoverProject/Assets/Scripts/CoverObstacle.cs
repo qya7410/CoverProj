@@ -43,7 +43,6 @@ public class CoverObstacle : MonoBehaviour
         while(true)
         {
             coverWithWall=GetCoverPosition();
-            //Debug.Log("AAAAAA"+GetCoverPosition());
             yield return new WaitForSeconds(2f);
         }
     }

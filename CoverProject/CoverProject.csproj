@@ -315,8 +315,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Bullet.cs" />
     <Compile Include="Assets\EnemyBrain.cs" />
     <Compile Include="Assets\EnumeratorTest.cs" />
+    <Compile Include="Assets\PlayerHealth.cs" />
     <Compile Include="Assets\Scripts\CameraMovement.cs" />
     <Compile Include="Assets\Scripts\CoverObstacle.cs" />
     <Compile Include="Assets\Scripts\Enemy\EnemyAI.cs" />

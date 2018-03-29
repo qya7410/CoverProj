@@ -1048,6 +1048,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1505459696979502
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4452173186442738}
+  m_Layer: 0
+  m_Name: FirePos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1510189238571258
 GameObject:
   m_ObjectHideFlags: 1
@@ -2941,6 +2956,19 @@ Transform:
   m_Father: {fileID: 4652133894780618}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4452173186442738
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1505459696979502}
+  m_LocalRotation: {x: -0.0012935549, y: 0.011433691, z: 0.072733164, w: -0.9972851}
+  m_LocalPosition: {x: -0.0019999323, y: 0.14800046, z: 0.92300075}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4628637226430596}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 159.173, z: 86.45901}
 --- !u!4 &4455275726758318
 Transform:
   m_ObjectHideFlags: 1
@@ -3360,7 +3388,8 @@ Transform:
   m_LocalRotation: {x: -0.50000083, y: 0.5000013, z: -0.4999999, w: 0.49999806}
   m_LocalPosition: {x: 0.548, y: 0.064, z: -0.069}
   m_LocalScale: {x: 0.9175011, y: 0.9175012, z: 0.9175017}
-  m_Children: []
+  m_Children:
+  - {fileID: 4452173186442738}
   m_Father: {fileID: 4542591803916204}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: -270, z: 270}
@@ -4150,6 +4179,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d9a2ea2d3cbd49649dece7ed2876001, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bullet: {fileID: 1619860434264200, guid: e19d023e26b654c00b8a3a9251b8337b, type: 2}
+  firePosition: {fileID: 4452173186442738}
   currentState: 0
   patrolPath:
   - {fileID: 0}
@@ -4160,11 +4191,12 @@ MonoBehaviour:
   isShooting: 0
   isCover: 0
   isStooed: 0
-  patrolStayTimer: 0
-  beteewnShot: 3
+  patrolStay: 5
+  beteewnShot: 1
   smoothRotateDamping: 16
   speed: 5
   moveToStopTimer: 0
+  enmeyAlertTime: 5
 --- !u!114 &114062374040711198
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4199,8 +4231,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94c2664fcb3a44131adb16297c90f148, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  viewRadius: 5.4
-  viewAngle: 85
+  isFindpalyer: 0
+  viewRadius: 6.87
+  viewAngle: 90
   obstcleMask:
     serializedVersion: 2
     m_Bits: 256
@@ -4229,7 +4262,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   destObstcle: {fileID: 0}
-  changeObstacleTimer: 5
+  changeObstacle: 5
 --- !u!135 &135071289498483858
 SphereCollider:
   m_ObjectHideFlags: 1

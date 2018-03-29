@@ -1,12 +1,11 @@
 ﻿<Properties StartupConfiguration="{0EBFB9E0-50B5-2C40-0E4E-7375AB60C263}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/HashIDs.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/EnemyBrain.cs">
     <Files>
       <File FileName="Assets/Scripts/Enemy/EnemyVisualSystem.cs" Line="67" Column="25" />
-      <File FileName="Assets/EnemyBrain.cs" Line="235" Column="59" />
       <File FileName="Assets/Scripts/CoverObstacle.cs" Line="45" Column="46" />
-      <File FileName="Assets/Bullet.cs" Line="25" Column="13" />
-      <File FileName="Assets/PlayerHealth.cs" Line="23" Column="33" />
-      <File FileName="Assets/Scripts/HashIDs.cs" Line="16" Column="24" />
+      <File FileName="Assets/Scripts/HashIDs.cs" Line="17" Column="69" />
+      <File FileName="Assets/Scripts/Player/PlayerMovment.cs" Line="40" Column="26" />
+      <File FileName="Assets/Scripts/EnemyBrain.cs" Line="124" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />

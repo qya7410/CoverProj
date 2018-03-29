@@ -14,5 +14,6 @@ public class HashIDs : MonoBehaviour
 
 
     public static int playerDeadHash = Animator.StringToHash("Dead");
+    public static int playerSneakHash = Animator.StringToHash("Sneak");
 
 }

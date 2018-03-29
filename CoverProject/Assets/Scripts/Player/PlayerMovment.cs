@@ -4,10 +4,18 @@ using UnityEngine;
 
 public class PlayerMovment : MonoBehaviour {
     public float moveSpeed = 5f;
+    public bool isSneak;
+
+    private CapsuleCollider cs;
+    private CharacterController cc;
     Animator anim;
     Vector3 playerForward;
+
 	// Use this for initialization
 	void Start () {
+        cc = GetComponent<CharacterController>();
+        cs = GetComponent<CapsuleCollider>();
+        isSneak = false;
         anim = GetComponent<Animator>();
 	}
 	
@@ -25,6 +33,21 @@ public class PlayerMovment : MonoBehaviour {
         else
         {
             anim.SetBool("IsMove", false);
+        }
+
+        if (isSneak)
+        {
+            moveSpeed = 1f;
+            cs.enabled = true;
+            cc.enabled = false;
+            anim.SetBool(HashIDs.playerSneakHash, true);
+
+        }
+        else{
+            moveSpeed = 2f;
+            cc.enabled = true;
+            cs.enabled = false;
+            anim.SetBool(HashIDs.playerSneakHash, false);
         }
     }
 }

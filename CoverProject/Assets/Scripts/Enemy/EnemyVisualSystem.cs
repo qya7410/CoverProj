@@ -155,7 +155,18 @@ public class EnemyVisualSystem : MonoBehaviour
                     isFindpalyer = true;
                 }
             }
-            Debug.DrawLine(transform.position, palyer.position, Color.white);
+
+            RaycastHit hit2;
+            Ray ray2 = new Ray(transform.position + Vector3.up * 1f, dirWithPalyer.normalized);
+            if (Physics.Raycast(ray2, out hit2, viewRadius))
+            {
+                if (hit.collider.tag == Tags.player)
+                {
+                    Debug.DrawLine(ray2.origin, hit2.point, Color.red);
+                    isFindpalyer = true;
+                }
+            }
+            //Debug.DrawLine(transform.position, palyer.position, Color.white);
         }
     }
 

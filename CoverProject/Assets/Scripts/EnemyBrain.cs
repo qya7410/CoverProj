@@ -63,6 +63,7 @@ public class EnemyBrain : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
 	{
+        Debug.Log(enemyEyes.isFindpalyer);
         //Debug.Log(patrolStayTimer);
         switch (currentState)
         {
@@ -71,7 +72,7 @@ public class EnemyBrain : MonoBehaviour
                 break;
             case EnemyState.Cover:
                 Cover();
-                AlertMoment();
+                // AlertMoment();
                 break;
         }
         if(enemyEyes.isFindpalyer)
@@ -86,15 +87,55 @@ public class EnemyBrain : MonoBehaviour
         if(isShooting)
         {
             ShootingAnimation();
-        }
+        } 
         //Debug.Log("EnmeyState=" + currentState);
 	}
 
 	//这个方法更新敌人巡逻
-	void Patroling()
+	// void Patroling()
+	// {
+    //     isShooting = false;
+    //     anim.SetBool(HashIDs.enmeyCoverHash, false);
+    //     anim.SetFloat(HashIDs.enmeyMoveSpeedHash, MovingSpeed());
+    //     agent.SetDestination(patrolPath[pathIndex].position);
+
+    //     if (agent.remainingDistance<agent.stoppingDistance)
+    //     {
+    //         agent.isStopped = true;
+    //         //开启导航的条件在stopdistance之内
+    //         patrolStayTimer -= Time.deltaTime;
+    //         if (patrolStayTimer<0f)
+    //         {
+    //             //agent.isStopped = false;
+    //             if (pathIndex==patrolPath.Length)
+    //             {
+    //                 pathIndex = 0;
+    //                 patrolStayTimer = patrolStay;
+    //             }
+    //             else
+    //             {
+    //                 pathIndex++;
+    //                 patrolStayTimer = patrolStay;
+    //             }
+    //         }
+    //     }
+    //     //划重点，其他情况开启导航
+    //     else
+    //     {
+    //         agent.isStopped = false;
+    //     }   
+    // }
+    void Patroling()
 	{
+        if (pathIndex==patrolPath.Length)
+        {
+            pathIndex = 0;
+        }
         isShooting = false;
         anim.SetBool(HashIDs.enmeyCoverHash, false);
+        anim.SetFloat(HashIDs.enmeyMoveSpeedHash, MovingSpeed());
+        agent.SetDestination(patrolPath[pathIndex].position);
+
         if (agent.remainingDistance<agent.stoppingDistance)
         {
             agent.isStopped = true;
@@ -103,25 +144,15 @@ public class EnemyBrain : MonoBehaviour
             if (patrolStayTimer<0f)
             {
                 //agent.isStopped = false;
-                if (pathIndex>=patrolPath.Length)
-                {
-                    pathIndex = 0;
-                    patrolStayTimer = patrolStay;
-                }
-                else
-                {
-                    ++pathIndex;
-                    patrolStayTimer = patrolStay;
-                }
+                pathIndex++;
+                patrolStayTimer=patrolStay;
             }
         }
         //划重点，其他情况开启导航
         else
         {
             agent.isStopped = false;
-        }
-        anim.SetFloat(HashIDs.enmeyMoveSpeedHash, MovingSpeed());
-        agent.SetDestination(patrolPath[pathIndex].position);
+        }   
     }
 
 	void Cover()
@@ -229,6 +260,7 @@ public class EnemyBrain : MonoBehaviour
             alert -= Time.deltaTime;
             if (alert <=0)
             {
+                // AnimatorStateInfo Info = anim.GetCurrentAnimatorStateInfo(0);
                 agent.isStopped = true;
                 enemyEyes.isFindpalyer = false;
                 alert = enmeyAlertTime;
@@ -236,17 +268,40 @@ public class EnemyBrain : MonoBehaviour
             }
         }
 
-        AnimatorStateInfo Info = anim.GetCurrentAnimatorStateInfo(0);
-        //if (Info.IsName("Base Layer.Looking") && Info.normalizedTime < 1.0f)
-        //{
-        //    agent.isStopped = true;
-        //}
-        //else
-        //{
-        //    agent.enabled = false;
-        //}
-    }
 
+        // if (Info.IsName("Base Layer.Looking") && Info.normalizedTime < 1.0f)
+        // {
+        //    agent.isStopped = true;
+        // }
+        // else
+        // {
+        //    agent.enabled = false;
+        // }
+    }
+    // void AlertMoment()
+    // {
+    //     if (Vector3.Distance(transform.position, player.position) > enemyEyes.viewRadius)
+    //     {
+    //         alert -= Time.deltaTime;
+    //         if (alert <=0)
+    //         {
+    //             agent.isStopped = true;
+    //             enemyEyes.isFindpalyer = false;
+    //             alert = enmeyAlertTime;
+    //             anim.SetTrigger(HashIDs.enmeyLookingHash);
+    //         }
+    //     }
+
+    //     AnimatorStateInfo Info = anim.GetCurrentAnimatorStateInfo(0);
+    //     //if (Info.IsName("Base Layer.Looking") && Info.normalizedTime < 1.0f)
+    //     //{
+    //     //    agent.isStopped = true;
+    //     //}
+    //     //else
+    //     //{
+    //     //    agent.enabled = false;
+    //     //}
+    // }
     public void GunShot()
     {
         Instantiate(bullet,firePosition.position,transform.rotation);

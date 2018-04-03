@@ -11,6 +11,7 @@ public class PlayerMovment : MonoBehaviour {
     Animator anim;
     Vector3 playerForward;
 
+    int pressSneak =0;
 	// Use this for initialization
 	void Start () {
         cc = GetComponent<CharacterController>();
@@ -38,16 +39,53 @@ public class PlayerMovment : MonoBehaviour {
         if (isSneak)
         {
             moveSpeed = 1f;
-            cs.enabled = true;
-            cc.enabled = false;
+            cc.height =1f;
+            cc.center =new Vector3(0,0.6f,0);
             anim.SetBool(HashIDs.playerSneakHash, true);
 
         }
         else{
             moveSpeed = 2f;
-            cc.enabled = true;
-            cs.enabled = false;
+            cc.height =2f;
+            cc.center =new Vector3(0,1.12f,0);
             anim.SetBool(HashIDs.playerSneakHash, false);
         }
+        // if (isSneak)
+        // {
+        //     moveSpeed = 1f;
+        //     cs.enabled = true;
+        //     cc.enabled = false;
+        //     anim.SetBool(HashIDs.playerSneakHash, true);
+
+        // }
+        // else{
+        //     moveSpeed = 2f;
+        //     cc.enabled = true;
+        //     cs.enabled = false;
+        //     anim.SetBool(HashIDs.playerSneakHash, false);
+        // }
+    }
+
+    public void OnClick()
+    {
+        pressSneak++;
+        if (pressSneak>1)
+        {
+            pressSneak=0;
+        }
+        else
+        {
+        pressSneak++;
+        }
+
+        if (pressSneak==0)
+        {
+            isSneak=false;
+        }
+        else
+        {
+            isSneak=true;
+        }
+      Debug.Log("Press"+pressSneak.ToString()); 
     }
 }

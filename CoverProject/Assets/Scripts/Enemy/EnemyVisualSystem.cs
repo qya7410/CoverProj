@@ -8,7 +8,8 @@ public class EnemyVisualSystem : MonoBehaviour
     //public float findPlayer
     public float viewRadius;//视觉圆的半径
 
-
+    public float alertTimer=5f;
+    
     [Range(0, 360)]
     public float viewAngle;//视觉角度
     public LayerMask obstcleMask;
@@ -23,6 +24,10 @@ public class EnemyVisualSystem : MonoBehaviour
     private Mesh viewMesh;
     private Transform palyer;
     private Animator anim;
+
+    float alert=0f;
+    bool hightHit;
+    bool lowHit;
     public struct ViewCastinfo //检测需要的信息，把它作为一个结构体
     {
         public bool hit;
@@ -64,7 +69,25 @@ public class EnemyVisualSystem : MonoBehaviour
     private void Update()
     {
         DrawEnemyVisualisation();
-        //AlertMoment();
+        FindVisiblePlayer();
+
+         if ((hightHit||lowHit)||(hightHit&&lowHit))
+        {
+                isFindpalyer = true;
+            }
+            else
+            {
+                alert+=Time.deltaTime;
+                if(alert>=alertTimer)
+                {
+                    isFindpalyer = false;
+                    alert=0f;
+                }
+                
+        }
+            Debug.Log("hightHit"+hightHit.ToString());
+            Debug.Log("lowHit"+lowHit.ToString());
+            // Debug.Log("警报时间"+alert.ToString());
     }
 
     void DrawEnemyVisualisation()//画扇形
@@ -144,29 +167,37 @@ public class EnemyVisualSystem : MonoBehaviour
 
         if(Vector3.Angle(dirWithPalyer,transform.forward)<viewAngle&&Vector3.Distance(transform.position,palyer.position)<viewRadius)
         {
+           
             //isFindpalyer = true;
-            RaycastHit hit;
-            Ray ray = new Ray(transform.position + Vector3.up * 1.5f, dirWithPalyer.normalized);
-            if (Physics.Raycast(ray,out hit,viewRadius))
+            RaycastHit hitHigh;
+            Ray ray = new Ray(transform.position + Vector3.up*1.3f, dirWithPalyer);
+            if (Physics.Raycast(ray,out hitHigh,viewRadius))
             {
-                if(hit.collider.tag==Tags.player)
+                if(hitHigh.collider.tag==Tags.player)
                 {
-                    Debug.DrawLine(ray.origin, hit.point, Color.red);
-                    isFindpalyer = true;
+                    hightHit=true;
+                }
+                else{
+                    hightHit=false;
                 }
             }
+           
 
-            RaycastHit hit2;
-            Ray ray2 = new Ray(transform.position + Vector3.up * 1f, dirWithPalyer.normalized);
-            if (Physics.Raycast(ray2, out hit2, viewRadius))
+            RaycastHit hitLow;
+            Ray ray2 = new Ray(transform.position + Vector3.up *0.5f, dirWithPalyer);
+            if (Physics.Raycast(ray2, out hitLow, viewRadius))
             {
-                if (hit.collider.tag == Tags.player)
+                if(hitLow.collider.tag==Tags.player)
                 {
-                    Debug.DrawLine(ray2.origin, hit2.point, Color.red);
-                    isFindpalyer = true;
+                    lowHit=true;
+                }
+                else
+                {
+                    lowHit=false;
                 }
             }
-            //Debug.DrawLine(transform.position, palyer.position, Color.white);
+            Debug.DrawLine(ray.origin,hitHigh.point, Color.white);
+            Debug.DrawLine(ray2.origin,hitLow.point, Color.green);
         }
     }
 

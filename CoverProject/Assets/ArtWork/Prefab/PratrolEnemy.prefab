@@ -1586,7 +1586,6 @@ GameObject:
   - component: {fileID: 95078327656260606}
   - component: {fileID: 195502516613834546}
   - component: {fileID: 135071289498483858}
-  - component: {fileID: 114062374040711198}
   - component: {fileID: 114834239826234470}
   - component: {fileID: 114632655835196810}
   - component: {fileID: 114039358041299038}
@@ -2328,7 +2327,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1707185157848596}
   m_LocalRotation: {x: -0, y: 0.62079203, z: -0, w: 0.7839753}
-  m_LocalPosition: {x: -0.88, y: 0, z: 14.76}
+  m_LocalPosition: {x: -6.96, y: 0, z: 22.37}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4254709506869122}
@@ -2962,13 +2961,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1505459696979502}
-  m_LocalRotation: {x: -0.0012935549, y: 0.011433691, z: 0.072733164, w: -0.9972851}
-  m_LocalPosition: {x: -0.0019999323, y: 0.14800046, z: 0.92300075}
+  m_LocalRotation: {x: -0.006520623, y: -0.060314093, z: 0.07245233, w: -0.99552524}
+  m_LocalPosition: {x: -0.0019916089, y: 0.14805515, z: 0.9232695}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4628637226430596}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 159.173, z: 86.45901}
+  m_LocalEulerAnglesHint: {x: 1.245, y: 6.8440003, z: -8.251}
 --- !u!4 &4455275726758318
 Transform:
   m_ObjectHideFlags: 1
@@ -4197,29 +4196,6 @@ MonoBehaviour:
   speed: 5
   moveToStopTimer: 0
   enmeyAlertTime: 5
---- !u!114 &114062374040711198
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1707185157848596}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 93143afcd528d434d813010a761b4644, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  distanceWithPlayer: 100
-  pratrolWayPoints:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  currentState: 0
-  stayTimer: 10
-  findPlayer: 0
-  vigilantTimer: 8
-  betweenShotTime: 0.5
-  resumeFindCoverTimer: 0.5
 --- !u!114 &114632655835196810
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4233,6 +4209,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isFindpalyer: 0
   viewRadius: 6.87
+  alertTimer: 5
   viewAngle: 90
   obstcleMask:
     serializedVersion: 2

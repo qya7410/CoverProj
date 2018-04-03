@@ -810,6 +810,8 @@ ModelImporter:
     optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
@@ -1287,7 +1289,7 @@ ModelImporter:
       scale: {x: 1, y: 1, z: 1}
     - name: gameAsset:cl_crvCnt_l_elbow_b01
       parentName: gameAsset:grp_cl_crvCnt_elbows01
-      position: {x: -0.39634115, y: 1.1743466, z: 0.09507465}
+      position: {x: -0.39634115, y: 1.1743466, z: 0.095074646}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: gameAsset:cl_crvCnt_r_elbow_a01
@@ -1307,22 +1309,22 @@ ModelImporter:
       scale: {x: 1, y: 1, z: 1}
     - name: gameAsset:cl_crvCnt_l_knee_a01
       parentName: gameAsset:grp_cl_crvCnt_knees01
-      position: {x: -0.06327612, y: 0.8038447, z: 0.070171334}
+      position: {x: -0.06327611, y: 0.8038447, z: 0.070171334}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: gameAsset:cl_crvCnt_l_knee_b01
       parentName: gameAsset:grp_cl_crvCnt_knees01
-      position: {x: -0.14170028, y: 0.7982434, z: 0.70984834}
+      position: {x: -0.14170027, y: 0.7982434, z: 0.7098483}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: gameAsset:cl_crvCnt_r_knee_a01
       parentName: gameAsset:grp_cl_crvCnt_knees01
-      position: {x: 0.067124195, y: 0.8088342, z: -0.004895224}
+      position: {x: 0.06712419, y: 0.8088342, z: -0.0048952233}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: gameAsset:cl_crvCnt_r_knee_b01
       parentName: gameAsset:grp_cl_crvCnt_knees01
-      position: {x: 0.43519628, y: 0.49667916, z: 0.69777375}
+      position: {x: 0.43519628, y: 0.49667916, z: 0.6977737}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: gameAsset:xtra_toShow01
@@ -1342,7 +1344,7 @@ ModelImporter:
       scale: {x: 1, y: 1, z: 1}
     - name: gameAsset:locOri_cc_l_foot01
       parentName: gameAsset:controlObjects01
-      position: {x: -0.24112315, y: 0.2941228, z: -0.051303983}
+      position: {x: -0.24112315, y: 0.29412276, z: -0.051303983}
       rotation: {x: 0, y: -0.069755375, z: -0, w: 0.99756414}
       scale: {x: 1, y: 1, z: 1}
     - name: gameAsset:locOri_cc_r_foot01
@@ -1357,22 +1359,22 @@ ModelImporter:
       scale: {x: 1, y: 1, z: 1}
     - name: gameAsset:rp_l_arm01
       parentName: gameAsset:iks01
-      position: {x: 0.12796003, y: 2.1743371, z: 0.8424643}
+      position: {x: 0.12796003, y: 2.174337, z: 0.84246427}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: gameAsset:rp_l_leg01
       parentName: gameAsset:iks01
-      position: {x: -0.40959632, y: 0.2941228, z: 0.62759215}
+      position: {x: -0.40959632, y: 0.29412276, z: 0.6275921}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: gameAsset:rp_r_arm01
       parentName: gameAsset:iks01
-      position: {x: 0.41599587, y: 2.0549965, z: 0.0631809}
+      position: {x: 0.41599587, y: 2.0549965, z: 0.06318089}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: gameAsset:rp_r_leg01
       parentName: gameAsset:iks01
-      position: {x: 0.35027054, y: 0.29412326, z: -0.57587606}
+      position: {x: 0.3502705, y: 0.29412326, z: -0.57587606}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: gameAsset:spIK_spine01
@@ -1387,7 +1389,7 @@ ModelImporter:
       scale: {x: 1, y: 1, z: 1}
     - name: gameAsset:jntDrv_spA01
       parentName: gameAsset:joints01
-      position: {x: 0.0038480675, y: 1.61268, z: 0.06527605}
+      position: {x: 0.0038480675, y: 1.6126798, z: 0.06527605}
       rotation: {x: -0.5378174, y: 0.46069148, z: -0.49755523, w: 0.5009537}
       scale: {x: 1, y: 1, z: 1}
     - name: gameAsset:grp_locAim_bn_spA01
@@ -1497,7 +1499,7 @@ ModelImporter:
       scale: {x: 1, y: 1, z: 1}
     - name: gameAsset:be_head01
       parentName: gameAsset:bn_head01
-      position: {x: -0.31086278, y: 2.6645354e-16, z: 9.0297145e-18}
+      position: {x: -0.31086278, y: 2.6645354e-16, z: 9.029714e-18}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: gameAsset:bn_r_brow01
@@ -1512,7 +1514,7 @@ ModelImporter:
       scale: {x: 1, y: 1, z: 1}
     - name: gameAsset:bn_l_brow01
       parentName: gameAsset:bn_head01
-      position: {x: -0.16077472, y: -0.059357125, z: -0.0569089}
+      position: {x: -0.16077471, y: -0.059357125, z: -0.0569089}
       rotation: {x: 0, y: 0, z: 0.47397923, w: 0.880536}
       scale: {x: 1, y: 1, z: 1}
     - name: gameAsset:be_l_brow01
@@ -1527,7 +1529,7 @@ ModelImporter:
       scale: {x: 1, y: 1, z: 1}
     - name: gameAsset:be_r_shld01
       parentName: gameAsset:bn_r_shld01
-      position: {x: 0.26058102, y: 0.0000031154223, z: 0.0000022361467}
+      position: {x: 0.26058102, y: 0.0000031154223, z: 0.0000022361464}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: gameAsset:bn_r_arm01
@@ -1577,17 +1579,17 @@ ModelImporter:
       scale: {x: 1, y: 1, z: 1}
     - name: gameAsset:bn_r_ring_b01
       parentName: gameAsset:bn_r_ring_a01
-      position: {x: 0.053971205, y: -0.00000148419, z: 0.000004223791}
+      position: {x: 0.053971205, y: -0.00000148419, z: 0.0000042237907}
       rotation: {x: 0.002135336, y: 0.008370778, z: 0.06787199, w: 0.9976567}
       scale: {x: 1, y: 1, z: 1}
     - name: gameAsset:bn_r_ring_c01
       parentName: gameAsset:bn_r_ring_b01
-      position: {x: 0.06007736, y: -0.0042280923, z: 0.0012036489}
+      position: {x: 0.06007736, y: -0.0042280923, z: 0.0012036487}
       rotation: {x: 0.0031561449, y: -0.010320612, z: -0.086128354, w: 0.9962256}
       scale: {x: 1, y: 1, z: 1}
     - name: gameAsset:be_r_ring_d01
       parentName: gameAsset:bn_r_ring_c01
-      position: {x: 0.06110776, y: 0.009649558, z: -0.000168683}
+      position: {x: 0.06110776, y: 0.009649558, z: -0.00016868298}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: gameAsset:bn_r_pinky_a01
@@ -1607,7 +1609,7 @@ ModelImporter:
       scale: {x: 1, y: 1, z: 1}
     - name: gameAsset:be_r_pinky_d01
       parentName: gameAsset:bn_r_pinky_c01
-      position: {x: 0.04685327, y: 0.005727133, z: 0.009215394}
+      position: {x: 0.046853267, y: 0.005727133, z: 0.009215394}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: gameAsset:bn_r_mid_a01
@@ -1617,7 +1619,7 @@ ModelImporter:
       scale: {x: 1, y: 1, z: 1}
     - name: gameAsset:bn_r_mid_b01
       parentName: gameAsset:bn_r_mid_a01
-      position: {x: 0.059489448, y: 0.00000014643277, z: -0.0000011151723}
+      position: {x: 0.059489448, y: 0.00000014643277, z: -0.0000011151722}
       rotation: {x: -0.002160819, y: -0.00915438, z: 0.055810105, w: 0.9983972}
       scale: {x: 1, y: 1, z: 1}
     - name: gameAsset:bn_r_mid_c01
@@ -1637,12 +1639,12 @@ ModelImporter:
       scale: {x: 1, y: 1, z: 1}
     - name: gameAsset:bn_r_ind_b01
       parentName: gameAsset:bn_r_ind_a01
-      position: {x: 0.05939043, y: -0.0000006249834, z: -0.0000030928868}
+      position: {x: 0.05939043, y: -0.0000006249834, z: -0.0000030928866}
       rotation: {x: -0.0024007405, y: -0.022839272, z: -0.16846244, w: 0.98544055}
       scale: {x: 1, y: 1, z: 1}
     - name: gameAsset:bn_r_ind_c01
       parentName: gameAsset:bn_r_ind_b01
-      position: {x: 0.055258993, y: 0.023049908, z: -0.0028929755}
+      position: {x: 0.055258993, y: 0.023049906, z: -0.0028929755}
       rotation: {x: -0.004981128, y: -0.014412803, z: 0.22169918, w: 0.9749959}
       scale: {x: 1, y: 1, z: 1}
     - name: gameAsset:be_r_ind_d01
@@ -1672,7 +1674,7 @@ ModelImporter:
       scale: {x: 1, y: 1, z: 1}
     - name: gameAsset:bn_r_armTwist_b01
       parentName: gameAsset:bn_r_arm01
-      position: {x: 0.21341383, y: -0.0000055260466, z: -0.0000010129858}
+      position: {x: 0.21341383, y: -0.0000055260466, z: -0.0000010129856}
       rotation: {x: 0.000039968676, y: 0.0000028164209, z: -0.000006511629, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: gameAsset:bn_r_armTwist_a01
@@ -1717,7 +1719,7 @@ ModelImporter:
       scale: {x: 1, y: 1, z: 1}
     - name: gameAsset:bn_l_thumb_b01
       parentName: gameAsset:bn_l_thumb_a01
-      position: {x: -0.105683, y: -0.0012458329, z: -0.009017769}
+      position: {x: -0.105683, y: -0.0012458328, z: -0.009017769}
       rotation: {x: -0.12615, y: -0.074524604, z: 0.0067766914, w: 0.98918474}
       scale: {x: 1, y: 1, z: 1}
     - name: gameAsset:bn_l_thumb_c01
@@ -1727,7 +1729,7 @@ ModelImporter:
       scale: {x: 1, y: 1, z: 1}
     - name: gameAsset:be_l_thumb_d01
       parentName: gameAsset:bn_l_thumb_c01
-      position: {x: -0.078248955, y: -0.0062844437, z: -0.0039115096}
+      position: {x: -0.078248955, y: -0.006284443, z: -0.003911509}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: gameAsset:bn_l_ring_a01
@@ -1742,7 +1744,7 @@ ModelImporter:
       scale: {x: 1, y: 1, z: 1}
     - name: gameAsset:bn_l_ring_c01
       parentName: gameAsset:bn_l_ring_b01
-      position: {x: -0.060077965, y: 0.004229941, z: -0.0012074274}
+      position: {x: -0.060077965, y: 0.0042299405, z: -0.0012074274}
       rotation: {x: 0.0031666758, y: -0.010352705, z: -0.086170115, w: 0.9962217}
       scale: {x: 1, y: 1, z: 1}
     - name: gameAsset:be_l_ring_d01
@@ -1752,7 +1754,7 @@ ModelImporter:
       scale: {x: 1, y: 1, z: 1}
     - name: gameAsset:bn_l_pinky_a01
       parentName: gameAsset:bn_l_wrist01
-      position: {x: -0.20370832, y: -0.075916655, z: -0.0822009}
+      position: {x: -0.2037083, y: -0.07591665, z: -0.0822009}
       rotation: {x: -0.20616895, y: -0.013927182, z: 0.14549732, w: 0.96753865}
       scale: {x: 1, y: 1, z: 1}
     - name: gameAsset:bn_l_pinky_b01
@@ -1767,12 +1769,12 @@ ModelImporter:
       scale: {x: 1, y: 1, z: 1}
     - name: gameAsset:be_l_pinky_d01
       parentName: gameAsset:bn_l_pinky_c01
-      position: {x: -0.046853766, y: -0.005724502, z: -0.009215522}
+      position: {x: -0.046853766, y: -0.005724502, z: -0.009215521}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: gameAsset:bn_l_mid_a01
       parentName: gameAsset:bn_l_wrist01
-      position: {x: -0.21890877, y: -0.030927878, z: 0.011801122}
+      position: {x: -0.21890877, y: -0.030927878, z: 0.011801121}
       rotation: {x: 0.021918463, y: -0.0026069502, z: 0.11723292, w: 0.9928591}
       scale: {x: 1, y: 1, z: 1}
     - name: gameAsset:bn_l_mid_b01
@@ -1782,17 +1784,17 @@ ModelImporter:
       scale: {x: 1, y: 1, z: 1}
     - name: gameAsset:bn_l_mid_c01
       parentName: gameAsset:bn_l_mid_b01
-      position: {x: -0.074714266, y: 0.00340959, z: 0.0016336187}
+      position: {x: -0.07471426, y: 0.00340959, z: 0.0016336187}
       rotation: {x: -0.0085850805, y: -0.011014259, z: 0.00028223445, w: 0.9999025}
       scale: {x: 1, y: 1, z: 1}
     - name: gameAsset:be_l_mid_a01
       parentName: gameAsset:bn_l_mid_c01
-      position: {x: -0.06153076, y: -0.0008796743, z: 0.0028864786}
+      position: {x: -0.06153076, y: -0.0008796743, z: 0.0028864783}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: gameAsset:bn_l_ind_a01
       parentName: gameAsset:bn_l_wrist01
-      position: {x: -0.20929113, y: -0.03141072, z: 0.06981747}
+      position: {x: -0.20929113, y: -0.031410716, z: 0.06981747}
       rotation: {x: 0.09208607, y: 0.07151329, z: 0.13160415, w: 0.98442185}
       scale: {x: 1, y: 1, z: 1}
     - name: gameAsset:bn_l_ind_b01
@@ -1802,7 +1804,7 @@ ModelImporter:
       scale: {x: 1, y: 1, z: 1}
     - name: gameAsset:bn_l_ind_c01
       parentName: gameAsset:bn_l_ind_b01
-      position: {x: -0.055258818, y: -0.023049828, z: 0.0028909182}
+      position: {x: -0.055258818, y: -0.023049828, z: 0.002890918}
       rotation: {x: -0.0049773403, y: -0.014432283, z: 0.22167507, w: 0.97500104}
       scale: {x: 1, y: 1, z: 1}
     - name: gameAsset:be_l_ind_d01
@@ -1817,7 +1819,7 @@ ModelImporter:
       scale: {x: 1, y: 1, z: 1}
     - name: gameAsset:bn_l_forearmTwist_b01
       parentName: gameAsset:bn_l_elbow_b01
-      position: {x: -0.26699308, y: -0.0000021310386, z: 0.00000051935217}
+      position: {x: -0.26699308, y: -0.0000021310384, z: 0.00000051935217}
       rotation: {x: -0.0000045800184, y: 0.0000009725767, z: 0.0000039908173, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: gameAsset:bn_l_forearmTwist_a01
@@ -1847,17 +1849,17 @@ ModelImporter:
       scale: {x: 1, y: 1, z: 1}
     - name: gameAsset:bn_r_knee_a01
       parentName: gameAsset:bn_r_thigh01
-      position: {x: 0.7228556, y: 0.00000012398502, z: 0.00000013513746}
+      position: {x: 0.72285557, y: 0.00000012398502, z: 0.00000013513744}
       rotation: {x: 0.0050720605, y: 0.0005795719, z: 0.1135273, w: 0.9935218}
       scale: {x: 1, y: 1, z: 1}
     - name: gameAsset:bn_r_knee_b01
       parentName: gameAsset:bn_r_knee_a01
-      position: {x: 0.10732949, y: -0.0000014236977, z: -0.000000025980468}
+      position: {x: 0.10732949, y: -0.0000014236975, z: -0.000000025980468}
       rotation: {x: 0.0012389201, y: 0.0002359762, z: 0.020609528, w: 0.9997868}
       scale: {x: 1, y: 1, z: 1}
     - name: gameAsset:bn_r_foot01
       parentName: gameAsset:bn_r_knee_b01
-      position: {x: 0.6709122, y: 0.000005128308, z: -0.00000009074867}
+      position: {x: 0.6709122, y: 0.0000051283077, z: -0.00000009074867}
       rotation: {x: -0.041925754, y: -0.018348841, z: -0.5151958, w: 0.85584986}
       scale: {x: 1, y: 1, z: 1}
     - name: gameAsset:bn_r_ball01
@@ -1912,7 +1914,7 @@ ModelImporter:
       scale: {x: 1, y: 1, z: 1}
     - name: gameAsset:grp_weapons01
       parentName: FBX_Biker(Clone)
-      position: {x: 0.20788756, y: 1.0275781, z: 0.031339146}
+      position: {x: 0.20788755, y: 1.0275781, z: 0.031339146}
       rotation: {x: -0.008079608, y: 0.0009406287, z: 0.008162048, w: 0.9999336}
       scale: {x: 1, y: 1, z: 1}
     - name: gameAsset:grpAnim_weaponsPIV01

@@ -4,11 +4,16 @@ using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour {
 
+    PlayerMovment playerMovment;
     public float hp = 100;
+    public bool isPlayerDead;
     private Animator anim;
 	// Use this for initialization
-	void Start () {
+	void Start () 
+    {
+        isPlayerDead=false;
         anim = GetComponent<Animator>();
+        playerMovment =GetComponent<PlayerMovment>();
 	}
 	
 	// Update is called once per frame
@@ -20,6 +25,8 @@ public class PlayerHealth : MonoBehaviour {
     {
         if(hp<=0)
         {
+            isPlayerDead=true;
+            playerMovment.enabled =false;
             anim.SetTrigger(HashIDs.playerDeadHash);
         }
         else

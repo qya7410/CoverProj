@@ -160,4 +160,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 70
   delayDestroy: 1
-  damage: 70
+  damage: 110

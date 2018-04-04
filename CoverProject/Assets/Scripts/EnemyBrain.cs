@@ -45,10 +45,12 @@ public class EnemyBrain : MonoBehaviour
     private GetNearByObstacle obs;
     public float enmeyAlertTime;
     private float alert = 0;
+    private PlayerMovment playerMovment;
 
 	void Start () 
     {
         alert = enmeyAlertTime;
+        playerMovment =GameObject.FindGameObjectWithTag(Tags.player).GetComponent<PlayerMovment>();
         patrolStayTimer = patrolStay;
         player = GameObject.FindWithTag(Tags.player).transform;
         enemyEyes = GetComponent<EnemyVisualSystem>();
@@ -63,8 +65,21 @@ public class EnemyBrain : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
 	{
-        Debug.Log(enemyEyes.isFindpalyer);
-        //Debug.Log(patrolStayTimer);
+        
+
+        //bug.无法正确重制 isFinderplayer
+        if(Vector3.Distance(transform.position,player.position)>enemyEyes.viewRadius)
+        {
+                alert-=Time.deltaTime;
+                if(alert>0)
+                {
+                   alert=enmeyAlertTime;
+                    enemyEyes.isFindpalyer=false;
+                }
+            
+            Debug.Log("TIMER="+alert.ToString());
+        }
+
         switch (currentState)
         {
             case EnemyState.Patroling:
@@ -78,7 +93,6 @@ public class EnemyBrain : MonoBehaviour
         if(enemyEyes.isFindpalyer)
 		{
             currentState = EnemyState.Cover;
-
         }
         else
         {
@@ -90,41 +104,6 @@ public class EnemyBrain : MonoBehaviour
         } 
         //Debug.Log("EnmeyState=" + currentState);
 	}
-
-	//这个方法更新敌人巡逻
-	// void Patroling()
-	// {
-    //     isShooting = false;
-    //     anim.SetBool(HashIDs.enmeyCoverHash, false);
-    //     anim.SetFloat(HashIDs.enmeyMoveSpeedHash, MovingSpeed());
-    //     agent.SetDestination(patrolPath[pathIndex].position);
-
-    //     if (agent.remainingDistance<agent.stoppingDistance)
-    //     {
-    //         agent.isStopped = true;
-    //         //开启导航的条件在stopdistance之内
-    //         patrolStayTimer -= Time.deltaTime;
-    //         if (patrolStayTimer<0f)
-    //         {
-    //             //agent.isStopped = false;
-    //             if (pathIndex==patrolPath.Length)
-    //             {
-    //                 pathIndex = 0;
-    //                 patrolStayTimer = patrolStay;
-    //             }
-    //             else
-    //             {
-    //                 pathIndex++;
-    //                 patrolStayTimer = patrolStay;
-    //             }
-    //         }
-    //     }
-    //     //划重点，其他情况开启导航
-    //     else
-    //     {
-    //         agent.isStopped = false;
-    //     }   
-    // }
     void Patroling()
 	{
         if (pathIndex==patrolPath.Length)
@@ -277,7 +256,7 @@ public class EnemyBrain : MonoBehaviour
         // {
         //    agent.enabled = false;
         // }
-    }
+    // }
     // void AlertMoment()
     // {
     //     if (Vector3.Distance(transform.position, player.position) > enemyEyes.viewRadius)
@@ -301,9 +280,17 @@ public class EnemyBrain : MonoBehaviour
     //     //{
     //     //    agent.enabled = false;
     //     //}
-    // }
+    }
     public void GunShot()
     {
-        Instantiate(bullet,firePosition.position,transform.rotation);
+        if (playerMovment.isSneak)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(player.position - firePosition.position+Vector3.up*0.5f);
+            Instantiate(bullet,firePosition.position,targetRotation);
+        }
+        else{
+            Instantiate(bullet,firePosition.position,firePosition.rotation);
+        }
+
     }
 }

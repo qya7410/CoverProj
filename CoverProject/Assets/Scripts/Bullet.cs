@@ -19,12 +19,26 @@ public class Bullet : MonoBehaviour {
 	}
 
 
-	private void OnTriggerEnter(Collider other)
-	{
-        if (other.tag == Tags.player)
+	// private void OnTriggerEnter(Collider other)
+	// {
+    //     if (other.tag == Tags.player)
+    //     {
+    //         other.GetComponent<PlayerHealth>().TakeDamage(damage);
+    //         Destroy(this.gameObject);
+    //     }
+	// }
+    private void OnCollisionEnter(Collision other)
+    {
+        if (other.collider.tag == Tags.obstacle)
         {
-            other.GetComponent<PlayerHealth>().TakeDamage(damage);
             Destroy(this.gameObject);
         }
-	}
+
+        if (other.collider.tag == Tags.player)
+        {
+             other.collider.GetComponent<PlayerHealth>().TakeDamage(damage);
+            Destroy(this.gameObject);
+        }
+        
+    }
 }

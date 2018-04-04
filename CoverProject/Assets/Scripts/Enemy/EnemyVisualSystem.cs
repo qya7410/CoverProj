@@ -69,25 +69,9 @@ public class EnemyVisualSystem : MonoBehaviour
     private void Update()
     {
         DrawEnemyVisualisation();
-        FindVisiblePlayer();
-
-         if ((hightHit||lowHit)||(hightHit&&lowHit))
-        {
-                isFindpalyer = true;
-            }
-            else
-            {
-                alert+=Time.deltaTime;
-                if(alert>=alertTimer)
-                {
-                    isFindpalyer = false;
-                    alert=0f;
-                }
-                
-        }
-            Debug.Log("hightHit"+hightHit.ToString());
-            Debug.Log("lowHit"+lowHit.ToString());
-            // Debug.Log("警报时间"+alert.ToString());
+        // Debug.Log("hightHit--------------------------:"+hightHit.ToString());
+        // Debug.Log("lowHit----------------------------:"+lowHit.ToString());
+        Debug.Log("IsFindPlayer--------------------------------:"+isFindpalyer.ToString());
     }
 
     void DrawEnemyVisualisation()//画扇形
@@ -177,8 +161,9 @@ public class EnemyVisualSystem : MonoBehaviour
                 {
                     hightHit=true;
                 }
-                else{
-                    hightHit=false;
+                else
+                {
+                    hightHit =false;
                 }
             }
            
@@ -198,6 +183,11 @@ public class EnemyVisualSystem : MonoBehaviour
             }
             Debug.DrawLine(ray.origin,hitHigh.point, Color.white);
             Debug.DrawLine(ray2.origin,hitLow.point, Color.green);
+        }
+
+        if(hightHit||lowHit&&!isFindpalyer)
+        {
+            isFindpalyer=true;
         }
     }
 

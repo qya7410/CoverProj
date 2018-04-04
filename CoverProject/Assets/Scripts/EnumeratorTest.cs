@@ -18,7 +18,7 @@ public class EnumeratorTest : MonoBehaviour {
     {
         while(true)
         {
-            Debug.Log("A");
+            Debug.Log(Time.deltaTime);
             yield return new WaitForSeconds(5);
         }
 

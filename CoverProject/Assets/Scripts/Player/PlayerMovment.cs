@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerMovment : MonoBehaviour {
     public float moveSpeed = 5f;
     public bool isSneak;
+    public float sneakSpeed;
 
     private CapsuleCollider cs;
     private CharacterController cc;
@@ -38,7 +39,7 @@ public class PlayerMovment : MonoBehaviour {
 
         if (isSneak)
         {
-            moveSpeed = 1f;
+            moveSpeed = sneakSpeed;
             cc.height =1f;
             cc.center =new Vector3(0,0.6f,0);
             anim.SetBool(HashIDs.playerSneakHash, true);
@@ -46,24 +47,10 @@ public class PlayerMovment : MonoBehaviour {
         }
         else{
             moveSpeed = 2f;
-            cc.height =2f;
-            cc.center =new Vector3(0,1.12f,0);
+            cc.height =2.5f;
+            cc.center =new Vector3(0,1.35f,0);
             anim.SetBool(HashIDs.playerSneakHash, false);
         }
-        // if (isSneak)
-        // {
-        //     moveSpeed = 1f;
-        //     cs.enabled = true;
-        //     cc.enabled = false;
-        //     anim.SetBool(HashIDs.playerSneakHash, true);
-
-        // }
-        // else{
-        //     moveSpeed = 2f;
-        //     cc.enabled = true;
-        //     cs.enabled = false;
-        //     anim.SetBool(HashIDs.playerSneakHash, false);
-        // }
     }
 
     public void OnClick()
@@ -86,6 +73,6 @@ public class PlayerMovment : MonoBehaviour {
         {
             isSneak=true;
         }
-      Debug.Log("Press"+pressSneak.ToString()); 
+    //   Debug.Log("Press"+pressSneak.ToString()); 
     }
 }
